@@ -247,7 +247,7 @@ RectTransform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 65284393}
   m_LocalRotation: {x: -0, y: -0, z: 0.0025049779, w: 0.9999969}
-  m_LocalPosition: {x: 0, y: 0, z: -0.41}
+  m_LocalPosition: {x: 0, y: 0, z: -0.11}
   m_LocalScale: {x: 0.81354, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -255,7 +255,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0.287}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 10.6, y: -130.7}
+  m_AnchoredPosition: {x: 22, y: -134.1}
   m_SizeDelta: {x: 200, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &65284395
@@ -305,14 +305,14 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 21
-  m_fontSizeBase: 21
+  m_fontSize: 15.96
+  m_fontSizeBase: 15.96
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
   m_fontSizeMax: 72
   m_fontStyle: 0
-  m_HorizontalAlignment: 1
+  m_HorizontalAlignment: 8
   m_VerticalAlignment: 256
   m_textAlignment: 65535
   m_characterSpacing: 0
@@ -344,7 +344,7 @@ MonoBehaviour:
   m_VertexBufferAutoSizeReduction: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: 59.00527, y: 2.367486, z: 87.188614, w: 6.4580812}
+  m_margin: {x: 60.632626, y: 2.367486, z: 100.15495, w: 32.17069}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_hasFontAssetChanged: 0
@@ -363,7 +363,7 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 2416199871598626844, guid: e893aefd93740714b999573b02916984, type: 3}
   m_PrefabInstance: {fileID: 782628375}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &165585586
+--- !u!114 &165585589
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -374,7 +374,21 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 2655e7e360c21434ebaed0d6ede5148b, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::PetScreenAdapter
+  m_EditorClassIdentifier: MyPetScripts.asmdef::PetScreenAdapter
+--- !u!114 &165585590
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 165585583}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0487d1591a80f435eaa1fd20dc121b93, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: MyPetScripts.asmdef::AutoBoundaryWalls
+  wallThickness: 2
+  targetCamera: {fileID: 963194227}
 --- !u!1 &223974226
 GameObject:
   m_ObjectHideFlags: 0
@@ -482,7 +496,7 @@ Transform:
   m_GameObject: {fileID: 223974226}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: -1.04}
   m_LocalScale: {x: 4, y: 4, z: 0.3}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -502,7 +516,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   subtitleText: {fileID: 65284395}
-  letterDuration: 0.8
+  letterDuration: 0.5
   popScale: 1.5
 --- !u!1 &705507993
 GameObject:
@@ -615,11 +629,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2416199871598626842, guid: e893aefd93740714b999573b02916984, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2416199871598626842, guid: e893aefd93740714b999573b02916984, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -10
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2416199871598626842, guid: e893aefd93740714b999573b02916984, type: 3}
       propertyPath: m_LocalRotation.w
@@ -687,7 +701,10 @@ PrefabInstance:
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 2416199871598626844, guid: e893aefd93740714b999573b02916984, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 165585586}
+      addedObject: {fileID: 165585589}
+    - targetCorrespondingSourceObject: {fileID: 2416199871598626844, guid: e893aefd93740714b999573b02916984, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 165585590}
   m_SourcePrefab: {fileID: 100100000, guid: e893aefd93740714b999573b02916984, type: 3}
 --- !u!1 &963194225
 GameObject:
@@ -775,7 +792,7 @@ Transform:
   m_GameObject: {fileID: 963194225}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -3}
+  m_LocalPosition: {x: 0, y: 0, z: -4.75}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

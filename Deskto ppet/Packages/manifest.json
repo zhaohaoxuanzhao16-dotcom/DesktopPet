@@ -1,9 +1,11 @@
 {
   "dependencies": {
+    "com.github.fuziki.unity_app_event_monitor": "https://github.com/fuziki/UnityAppEventMonitor.git?path=Examples/UnityAppEventMonitor/Assets/Plugins/AppEventMonitor",
     "com.kirurobo.uniwinc": "https://github.com/kirurobo/UniWindowController.git#upm",
     "com.unity.collab-proxy": "2.12.4",
     "com.unity.feature.development": "1.0.2",
     "com.unity.multiplayer.center": "1.0.1",
+    "com.unity.services.cloud-build": "2.1.0",
     "com.unity.timeline": "1.8.12",
     "com.unity.ugui": "2.0.0",
     "com.unity.visualscripting": "1.9.12",

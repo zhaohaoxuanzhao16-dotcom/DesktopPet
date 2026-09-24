@@ -25,7 +25,7 @@ public class PetScreenAdapter : MonoBehaviour
 
 #if UNITY_STANDALONE_OSX || UNITY_EDITOR_OSX
         screenW /= 2f;
-        screenH /= 1.7f;
+        screenH /= 2f;
 #endif
 
         float maxX = Mathf.Max(0, screenW - winSize.x);

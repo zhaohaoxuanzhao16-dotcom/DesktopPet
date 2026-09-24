@@ -1,117 +1,53 @@
 using UnityEngine;
 using TMPro;
 using System.Collections;
-using System;
-using System.Runtime.InteropServices;
 
-/// <summary>
-/// Windows 全局键盘监听 + 桌宠彩蛋
-/// 挂载到桌宠物体上即可使用
-/// 无需任何外部插件
-/// </summary>
-public class WindowsGlobalKey : MonoBehaviour
+public class TypeSequenceLoop : MonoBehaviour
 {
     [Header("字幕设置")]
     public TextMeshProUGUI subtitleText;
     public float letterDuration = 0.8f;
     public float popScale = 1.5f;
 
-    // 字母序列
-    private char[] letters = new char[] { 'q', 'w', 'e', 'r' };
+    private char[] sequence = new char[] { 'q', 'w', 'e', 'r' };
     private int currentIndex = 0;
-    private bool isCompleted = false;
 
-    // ---- Windows API 全局键盘钩子 ----
-    private delegate IntPtr LowLevelKeyboardProc(int nCode, IntPtr wParam, IntPtr lParam);
+    // 只有彩蛋动画在播时才为 true，但它不再阻止键盘输入
+    private bool isPlayingEffect = false;
 
-    [DllImport("user32.dll", CharSet = CharSet.Auto, SetLastError = true)]
-    private static extern IntPtr SetWindowsHookEx(int idHook, LowLevelKeyboardProc lpfn, IntPtr hMod, uint dwThreadId);
-
-    [DllImport("user32.dll", CharSet = CharSet.Auto, SetLastError = true)]
-    private static extern bool UnhookWindowsHookEx(IntPtr hhk);
-
-    [DllImport("user32.dll", CharSet = CharSet.Auto, SetLastError = true)]
-    private static extern IntPtr CallNextHookEx(IntPtr hhk, int nCode, IntPtr wParam, IntPtr lParam);
-
-    [DllImport("kernel32.dll", CharSet = CharSet.Auto, SetLastError = true)]
-    private static extern IntPtr GetModuleHandle(string lpModuleName);
-
-    private const int WH_KEYBOARD_LL = 13;
-    private const int WM_KEYDOWN = 0x0100;
-
-    private static IntPtr _hookID = IntPtr.Zero;
-    private static LowLevelKeyboardProc _proc = HookCallback;
-    private static WindowsGlobalKey _instance;
-
-    void Awake()
+    void Update()
     {
-        _instance = this;
-    }
-
-    void Start()
-    {
-        // 安装全局键盘钩子
-        _hookID = SetHook(_proc);
-        if (_hookID == IntPtr.Zero)
+        if (Input.anyKeyDown
+            && !Input.GetMouseButton(0)
+            && !Input.GetMouseButton(1)
+            && !Input.GetMouseButton(2)
+            && Input.mouseScrollDelta == Vector2.zero)
         {
-            Debug.LogError("❌ 全局键盘钩子安装失败！请以管理员身份运行。");
-        }
-        else
-        {
-            Debug.Log("✅ 全局键盘钩子安装成功！");
+            OnKeyPressed();
         }
     }
 
-    private static IntPtr SetHook(LowLevelKeyboardProc proc)
+    private void OnKeyPressed()
     {
-        using (System.Diagnostics.Process curProcess = System.Diagnostics.Process.GetCurrentProcess())
-        using (System.Diagnostics.ProcessModule curModule = curProcess.MainModule)
-        {
-            return SetWindowsHookEx(WH_KEYBOARD_LL, proc,
-                GetModuleHandle(curModule.ModuleName), 0);
-        }
-    }
+        // 彩蛋播放期间，忽略字母累计，但不阻塞后续输入
+        if (isPlayingEffect) return;
 
-    private static IntPtr HookCallback(int nCode, IntPtr wParam, IntPtr lParam)
-    {
-        if (nCode >= 0 && wParam == (IntPtr)WM_KEYDOWN)
-        {
-            if (_instance != null)
-            {
-                _instance.TriggerLetter();
-            }
-        }
-        return CallNextHookEx(_hookID, nCode, wParam, lParam);
-    }
-
-    void OnDestroy()
-    {
-        if (_hookID != IntPtr.Zero)
-        {
-            UnhookWindowsHookEx(_hookID);
-            _hookID = IntPtr.Zero;
-            Debug.Log("全局键盘钩子已卸载。");
-        }
-    }
-
-    // ---- 彩蛋逻辑 ----
-    public void TriggerLetter()
-    {
-        if (isCompleted) return;
-
-        ShowLetter(letters[currentIndex]);
+        TriggerLetter(sequence[currentIndex]);
         currentIndex++;
 
-        if (currentIndex >= letters.Length)
+        if (currentIndex >= sequence.Length)
         {
             currentIndex = 0;
             StartCoroutine(CompleteEffect());
         }
     }
 
-    private void ShowLetter(char letter)
+    private void TriggerLetter(char letter)
     {
         if (subtitleText == null) return;
+
+        // 如果在播彩蛋，先停掉，避免两个协程同时改字幕
+        StopAllCoroutines();
 
         subtitleText.text = letter.ToString();
         subtitleText.color = Color.yellow;
@@ -121,10 +57,9 @@ public class WindowsGlobalKey : MonoBehaviour
 
     private IEnumerator PopAnimation()
     {
-        Vector3 originalScale = subtitleText.transform.localScale;
         subtitleText.transform.localScale = Vector3.one * popScale;
 
-        float elapsed = 0;
+        float elapsed = 0f;
         float duration = 0.15f;
         while (elapsed < duration)
         {
@@ -137,19 +72,19 @@ public class WindowsGlobalKey : MonoBehaviour
         subtitleText.transform.localScale = Vector3.one;
         yield return new WaitForSeconds(letterDuration);
 
-        if (currentIndex < letters.Length)
-        {
-            subtitleText.text = "";
-            subtitleText.gameObject.SetActive(false);
-        }
+        subtitleText.text = "";
+        subtitleText.gameObject.SetActive(false);
     }
 
     private IEnumerator CompleteEffect()
     {
+        isPlayingEffect = true;
+
         for (int i = 0; i < 3; i++)
         {
             subtitleText.text = "QWER!";
             subtitleText.color = Color.red;
+            subtitleText.gameObject.SetActive(true);
             yield return new WaitForSeconds(0.2f);
             subtitleText.color = Color.white;
             yield return new WaitForSeconds(0.2f);
@@ -158,6 +93,7 @@ public class WindowsGlobalKey : MonoBehaviour
         yield return new WaitForSeconds(1f);
         subtitleText.text = "";
         subtitleText.gameObject.SetActive(false);
-        isCompleted = false;
+
+        isPlayingEffect = false;   // 立刻解锁，无需等下一轮
     }
 }
