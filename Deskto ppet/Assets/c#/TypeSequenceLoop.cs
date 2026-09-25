@@ -2,6 +2,12 @@ using UnityEngine;
 using TMPro;
 using System.Collections;
 
+/// <summary>
+/// 桌宠窗口聚焦时的键盘彩蛋
+/// - 不依赖任何插件
+/// - 窗口有焦点时，按任意键 → 依次显示 q → w → e → r
+/// - 累计 4 次触发 QWER! 彩蛋
+/// </summary>
 public class TypeSequenceLoop : MonoBehaviour
 {
     [Header("字幕设置")]
@@ -11,8 +17,6 @@ public class TypeSequenceLoop : MonoBehaviour
 
     private char[] sequence = new char[] { 'q', 'w', 'e', 'r' };
     private int currentIndex = 0;
-
-    // 只有彩蛋动画在播时才为 true，但它不再阻止键盘输入
     private bool isPlayingEffect = false;
 
     void Update()
@@ -29,7 +33,6 @@ public class TypeSequenceLoop : MonoBehaviour
 
     private void OnKeyPressed()
     {
-        // 彩蛋播放期间，忽略字母累计，但不阻塞后续输入
         if (isPlayingEffect) return;
 
         TriggerLetter(sequence[currentIndex]);
@@ -45,10 +48,7 @@ public class TypeSequenceLoop : MonoBehaviour
     private void TriggerLetter(char letter)
     {
         if (subtitleText == null) return;
-
-        // 如果在播彩蛋，先停掉，避免两个协程同时改字幕
         StopAllCoroutines();
-
         subtitleText.text = letter.ToString();
         subtitleText.color = Color.yellow;
         subtitleText.gameObject.SetActive(true);
@@ -58,9 +58,7 @@ public class TypeSequenceLoop : MonoBehaviour
     private IEnumerator PopAnimation()
     {
         subtitleText.transform.localScale = Vector3.one * popScale;
-
-        float elapsed = 0f;
-        float duration = 0.15f;
+        float elapsed = 0f, duration = 0.15f;
         while (elapsed < duration)
         {
             elapsed += Time.deltaTime;
@@ -68,10 +66,8 @@ public class TypeSequenceLoop : MonoBehaviour
             subtitleText.transform.localScale = Vector3.Lerp(Vector3.one * popScale, Vector3.one, t);
             yield return null;
         }
-
         subtitleText.transform.localScale = Vector3.one;
         yield return new WaitForSeconds(letterDuration);
-
         subtitleText.text = "";
         subtitleText.gameObject.SetActive(false);
     }
@@ -79,7 +75,6 @@ public class TypeSequenceLoop : MonoBehaviour
     private IEnumerator CompleteEffect()
     {
         isPlayingEffect = true;
-
         for (int i = 0; i < 3; i++)
         {
             subtitleText.text = "QWER!";
@@ -89,11 +84,9 @@ public class TypeSequenceLoop : MonoBehaviour
             subtitleText.color = Color.white;
             yield return new WaitForSeconds(0.2f);
         }
-
         yield return new WaitForSeconds(1f);
         subtitleText.text = "";
         subtitleText.gameObject.SetActive(false);
-
-        isPlayingEffect = false;   // 立刻解锁，无需等下一轮
+        isPlayingEffect = false;
     }
 }
