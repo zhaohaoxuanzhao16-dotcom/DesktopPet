@@ -2,12 +2,6 @@ using UnityEngine;
 using TMPro;
 using System.Collections;
 
-/// <summary>
-/// 桌宠窗口聚焦时的键盘彩蛋
-/// - 不依赖任何插件
-/// - 窗口有焦点时，按任意键 → 依次显示 q → w → e → r
-/// - 累计 4 次触发 QWER! 彩蛋
-/// </summary>
 public class TypeSequenceLoop : MonoBehaviour
 {
     [Header("字幕设置")]
@@ -15,9 +9,59 @@ public class TypeSequenceLoop : MonoBehaviour
     public float letterDuration = 0.8f;
     public float popScale = 1.5f;
 
-    private char[] sequence = new char[] { 'q', 'w', 'e', 'r' };
+    // 当前序列（默认 qwer）
+    private string sequence = "qwer";
     private int currentIndex = 0;
     private bool isPlayingEffect = false;
+
+    // 保存用的 key
+    private const string SaveKey = "EasterEggSequence";
+
+    void Start()
+    {
+        // 读取保存的序列
+        sequence = PlayerPrefs.GetString(SaveKey, "qwer").ToLower();
+        currentIndex = 0;
+
+        // 把当前序列显示到设置面板的输入框（后面会说）
+        Debug.Log($"彩蛋序列: {sequence}");
+    }
+
+    // 允许设置面板调用，改序列
+public void SetSequence(string newSeq)
+{
+    if (string.IsNullOrEmpty(newSeq)) return;
+
+    newSeq = newSeq.Trim();
+
+    // 过滤掉空格、换行、符号（保留中文、字母、数字）
+    string filtered = "";
+    foreach (char c in newSeq)
+    {
+        // 中文范围 + 英文字母 + 数字
+        if ((c >= '\u4e00' && c <= '\u9fff') ||   // 常用汉字
+            (c >= 'a' && c <= 'z') ||
+            (c >= 'A' && c <= 'Z') ||
+            (c >= '0' && c <= '9'))
+        {
+            filtered += c;
+        }
+    }
+
+    if (filtered.Length == 0) return;
+
+    // 长度限制
+    if (filtered.Length > 8)
+        filtered = filtered.Substring(0, 8);
+
+    sequence = filtered.ToLower();   // 英文统一小写
+    currentIndex = 0;
+
+    PlayerPrefs.SetString(SaveKey, sequence);
+    PlayerPrefs.Save();
+
+    Debug.Log($"彩蛋序列已更新: {sequence}（{sequence.Length} 个字符）");
+}
 
     void Update()
     {
@@ -77,7 +121,7 @@ public class TypeSequenceLoop : MonoBehaviour
         isPlayingEffect = true;
         for (int i = 0; i < 3; i++)
         {
-            subtitleText.text = "QWER!";
+            subtitleText.text = sequence.ToUpper() + "!";
             subtitleText.color = Color.red;
             subtitleText.gameObject.SetActive(true);
             yield return new WaitForSeconds(0.2f);

@@ -48,7 +48,6 @@
   <Project Path="Unity.Services.Core.Device.csproj" />
   <Project Path="Unity.VisualScripting.Shared.Editor.csproj" />
   <Project Path="Unity.EditorCoroutines.Editor.csproj" />
-  <Project Path="AppEventMonitor.csproj" />
   <Project Path="Unity.PlasticSCM.Editor.Entities.csproj" />
   <Project Path="Unity.Services.Core.Registration.csproj" />
   <Project Path="Kirurobo.UniWindowController.Editor.csproj" />
