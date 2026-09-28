@@ -16,24 +16,75 @@ MonoBehaviour:
   - id: zh
     displayName: "\u667A\u6167"
     icon: {fileID: 21300000, guid: 0ff8491efa9f74c0090d53afe90442ee, type: 3}
-    modelPrefab: {fileID: 0}
-  - id: 
-    displayName: 
-    icon: {fileID: 0}
-    modelPrefab: {fileID: 0}
-  - id: 
-    displayName: 
-    icon: {fileID: 0}
-    modelPrefab: {fileID: 0}
-  - id: 
-    displayName: 
-    icon: {fileID: 0}
-    modelPrefab: {fileID: 0}
-  - id: 
-    displayName: 
-    icon: {fileID: 0}
-    modelPrefab: {fileID: 0}
-  - id: 
-    displayName: 
-    icon: {fileID: 0}
-    modelPrefab: {fileID: 0}
+    category: 1
+    modelPrefab: {fileID: 1591121948144566795, guid: b9ecee17e240c4712b2abcf6db6c75dd, type: 3}
+  - id: hg
+    displayName: "\u9EC4\u74DC"
+    icon: {fileID: 21300000, guid: 4d28214626f5747f2b10b9f1c7dfb7e8, type: 3}
+    category: 1
+    modelPrefab: {fileID: 2224571937394354187, guid: 8c27ddcc9bdcb4dac93d37623d01f234, type: 3}
+  - id: yz
+    displayName: "\u773C\u7F69"
+    icon: {fileID: 21300000, guid: 9e3c92127e30a4375baad524ae767b95, type: 3}
+    category: 1
+    modelPrefab: {fileID: 8854574010808274435, guid: 5e0fbd364b5bb47bba2978caf8361590, type: 3}
+  - id: ax
+    displayName: "\u7231\u5FC3"
+    icon: {fileID: 21300000, guid: f2fb9c1a2c5ab42cb858037216c44684, type: 3}
+    category: 1
+    modelPrefab: {fileID: 1182431665388967000, guid: 3ad49800ced174db0a0f590b9792b1fd, type: 3}
+  - id: xxy
+    displayName: "\u661F\u661F\u773C"
+    icon: {fileID: 21300000, guid: 56c56021da15e43e5a66ceeda63ebf5e, type: 3}
+    category: 1
+    modelPrefab: {fileID: 81762267964827736, guid: b2df9b18846404c6091331016b83231a, type: 3}
+  - id: smyz
+    displayName: "\u7761\u7720\u773C\u7F69"
+    icon: {fileID: 21300000, guid: 8f8bce6318ad544eebc28dee1d60c170, type: 3}
+    category: 1
+    modelPrefab: {fileID: 5255476669671991625, guid: 0199ff48608aa44af821d1901f1872b4, type: 3}
+  - id: yb
+    displayName: "\u786C\u5E01"
+    icon: {fileID: 21300000, guid: 51dd0e1a20f12441caaab47708931ba7, type: 3}
+    category: 1
+    modelPrefab: {fileID: 3987206103450487017, guid: b4332236f61cc41f7b4c39d50a5a7e3c, type: 3}
+  - id: fgj
+    displayName: "\u53CD\u5149\u955C"
+    icon: {fileID: 21300000, guid: d519737b6d606458ba03c2eadb3867b3, type: 3}
+    category: 1
+    modelPrefab: {fileID: 1790819413446094385, guid: 526803603fadb4b3aa935e82009b2a2e, type: 3}
+  - id: hj
+    displayName: "\u5E7B\u89C9"
+    icon: {fileID: 21300000, guid: 4334fa535ac6440d7bda2bc787acbd04, type: 3}
+    category: 0
+    modelPrefab: {fileID: 7809509482825982646, guid: ed9d880f5b9de4a70af0a57b4389b7d3, type: 3}
+  - id: jyj
+    displayName: "\u5047\u773C\u955C"
+    icon: {fileID: 21300000, guid: 8e81e13762eec4474be9c2e82f180146, type: 3}
+    category: 1
+    modelPrefab: {fileID: 1928869331076939192, guid: 7da31f4203fac4876ae6b6d03a4da5a2, type: 3}
+  - id: hmj
+    displayName: "\u62A4\u76EE\u955C"
+    icon: {fileID: 21300000, guid: 6d055d6694da54257ad0a1d98d4e2de0, type: 3}
+    category: 1
+    modelPrefab: {fileID: 464429577650442661, guid: 650418659480e4ab985f792948734dcf, type: 3}
+  - id: xsmsk
+    displayName: "\u50CF\u7D20\u9A6C\u8D5B\u514B"
+    icon: {fileID: 21300000, guid: e5f7bb8ceaa1b4855aa9e38b61b60461, type: 3}
+    category: 1
+    modelPrefab: {fileID: 2685320517181304976, guid: bea6e80f455f04280ac6f91f06f25430, type: 3}
+  - id: ft
+    displayName: "\u5C01\u6761"
+    icon: {fileID: 21300000, guid: 4e639139081e547f69151a5cf0fbfc5b, type: 3}
+    category: 1
+    modelPrefab: {fileID: 9030196954052261265, guid: bfc5b9879e4034e2e8c6e1039869a96e, type: 3}
+  - id: xsyj
+    displayName: "\u50CF\u7D20\u773C\u955C"
+    icon: {fileID: 21300000, guid: bec18ebb837144aa481c103b02ff38c9, type: 3}
+    category: 1
+    modelPrefab: {fileID: 919132149155446097, guid: 2e936f24cefaf453a882877b9973a5b6, type: 3}
+  - id: sj
+    displayName: "\u6B7B\u673A"
+    icon: {fileID: 21300000, guid: 12b10e4840d61458f8f43db53164805d, type: 3}
+    category: 1
+    modelPrefab: {fileID: 919132149155446097, guid: 59ea23685af904f5e9705e200241a6c9, type: 3}

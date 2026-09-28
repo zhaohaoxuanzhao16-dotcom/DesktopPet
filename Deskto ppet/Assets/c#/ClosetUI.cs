@@ -14,10 +14,13 @@ public class ClosetUI : MonoBehaviour
     [Header("要控制的模型")]
     public Transform petModel;
 
-    [Header("换装子物体（预先挂好的装饰）")]
-    public OutfitEntry[] outfits;
+    [Header("换装子物体（按分类分组）")]
+    public OutfitEntry[] hats;       // 帽子类
+    public OutfitEntry[] glasses;    // 眼镜类
 
-    private string currentOutfitId = "";
+    // 当前装备的 id
+    private string currentHatId = "";
+    private string currentGlassesId = "";
 
     [System.Serializable]
     public class OutfitEntry
@@ -29,50 +32,33 @@ public class ClosetUI : MonoBehaviour
     void Start()
     {
         Debug.Log("=== ClosetUI Start ===");
-        Debug.Log($"database 为空: {database == null}");
-        Debug.Log($"gridParent 为空: {gridParent == null}");
-        Debug.Log($"slotPrefab 为空: {slotPrefab == null}");
-        Debug.Log($"petModel 为空: {petModel == null}");
 
         if (database == null || slotPrefab == null || gridParent == null)
         {
-            Debug.LogWarning("ClosetUI: 引用没拖全，UI 不会生成");
+            Debug.LogWarning("ClosetUI: 引用没拖全");
             return;
         }
 
-        currentOutfitId = PlayerPrefs.GetString("CurrentOutfit", "");
-        Debug.Log($"读取上次换装: {currentOutfitId}");
+        // 读取上次换装
+        currentHatId = PlayerPrefs.GetString("CurrentHat", "");
+        currentGlassesId = PlayerPrefs.GetString("CurrentGlasses", "");
 
-        ApplyOutfitById(currentOutfitId);
+        ApplyAll();
         BuildUI();
     }
 
     void BuildUI()
     {
-        foreach (var item in database.items)
-{
-    // 跳过空物品
-    if (item == null || string.IsNullOrEmpty(item.id))
-        continue;
-
-    GameObject slot = Instantiate(slotPrefab, gridParent);
-    // ... 原有代码
-}
-        Debug.Log("BuildUI 开始");
         foreach (Transform child in gridParent)
             Destroy(child.gameObject);
 
-        if (database.items == null || database.items.Length == 0)
-        {
-            Debug.LogWarning("ClosetUI: 数据库里没有物品");
-            return;
-        }
-        
+        if (database.items == null || database.items.Length == 0) return;
 
         foreach (var item in database.items)
         {
+            if (item == null || string.IsNullOrEmpty(item.id)) continue;
+
             GameObject slot = Instantiate(slotPrefab, gridParent);
-            Debug.Log($"生成格子: {item.displayName}");
 
             var iconImage = slot.transform.Find("Icon")?.GetComponent<Image>();
             if (iconImage != null) iconImage.sprite = item.icon;
@@ -87,27 +73,58 @@ public class ClosetUI : MonoBehaviour
         }
     }
 
-void OnItemClicked(ClosetItem item)
-{
-    if (item == null || string.IsNullOrEmpty(item.id)) return;
-    // ... 原有代码
+    void OnItemClicked(ClosetItem item)
+    {
+        if (item == null || string.IsNullOrEmpty(item.id)) return;
 
-        Debug.Log($"选择物品: {item.displayName}");
-        currentOutfitId = item.id;
-        PlayerPrefs.SetString("CurrentOutfit", currentOutfitId);
+        Debug.Log($"选择: {item.displayName} ({item.category})");
+
+        // 按分类更新
+        switch (item.category)
+        {
+            case ClosetCategory.Hat:
+                // 再点同一个 = 摘掉
+                if (currentHatId == item.id) currentHatId = "";
+                else currentHatId = item.id;
+                PlayerPrefs.SetString("CurrentHat", currentHatId);
+                break;
+
+            case ClosetCategory.Glasses:
+                if (currentGlassesId == item.id) currentGlassesId = "";
+                else currentGlassesId = item.id;
+                PlayerPrefs.SetString("CurrentGlasses", currentGlassesId);
+                break;
+        }
+
         PlayerPrefs.Save();
-
-        ApplyOutfitById(currentOutfitId);
+        ApplyAll();
     }
 
-    void ApplyOutfitById(string id)
+    void ApplyAll()
     {
-        if (outfits == null) return;
+        ApplyCategory(hats, currentHatId);
+        ApplyCategory(glasses, currentGlassesId);
+    }
 
-        foreach (var o in outfits)
+    void ApplyCategory(OutfitEntry[] list, string id)
+    {
+        if (list == null) return;
+
+        // 全部隐藏
+        foreach (var o in list)
             if (o.model != null) o.model.SetActive(false);
 
-        foreach (var o in outfits)
-            if (o.id == id && o.model != null) o.model.SetActive(true);
+        // 只显示匹配的
+        if (string.IsNullOrEmpty(id)) return;
+
+        foreach (var o in list)
+        {
+            if (o.id == id && o.model != null)
+            {
+                o.model.SetActive(true);
+                Debug.Log($"显示 {o.model.name}");
+                break;
+            }
+        }
     }
 }

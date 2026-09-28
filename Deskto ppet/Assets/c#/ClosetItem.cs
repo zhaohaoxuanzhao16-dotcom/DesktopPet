@@ -1,10 +1,17 @@
 using UnityEngine;
 
+public enum ClosetCategory
+{
+    Hat,      // 帽子
+    Glasses,  // 眼镜
+}
+
 [System.Serializable]
 public class ClosetItem
 {
-    public string id;              // 唯一标识，比如 "hat_red"
-    public string displayName;     // 显示名字，比如 "红帽子"
-    public Sprite icon;            // 图标（UI 里显示）
-    public GameObject modelPrefab; // 换装的模型（可选）
+    public string id;
+    public string displayName;
+    public Sprite icon;
+    public ClosetCategory category;   // ★ 新增：分类
+    public GameObject modelPrefab;
 }
