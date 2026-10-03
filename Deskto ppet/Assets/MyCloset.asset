@@ -88,3 +88,13 @@ MonoBehaviour:
     icon: {fileID: 21300000, guid: 12b10e4840d61458f8f43db53164805d, type: 3}
     category: 1
     modelPrefab: {fileID: 919132149155446097, guid: 59ea23685af904f5e9705e200241a6c9, type: 3}
+  - id: sbyj
+    displayName: "\u8D5B\u535A\u773C\u955C"
+    icon: {fileID: 21300000, guid: 9a6b26640e8bd4063aa8618dc1fdc2e8, type: 3}
+    category: 1
+    modelPrefab: {fileID: 193714193366709253, guid: 7d7c8829f54f7453f807d2f4160d7ae2, type: 3}
+  - id: srm
+    displayName: "\u751F\u65E5\u5E3D"
+    icon: {fileID: 21300000, guid: f6a58166e3c79489bbcd2e9fbceeb291, type: 3}
+    category: 0
+    modelPrefab: {fileID: 919132149155446097, guid: 312df82849bd748428c95931594be5d6, type: 3}
