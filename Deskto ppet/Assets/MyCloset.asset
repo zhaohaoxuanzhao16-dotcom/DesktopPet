@@ -98,3 +98,13 @@ MonoBehaviour:
     icon: {fileID: 21300000, guid: f6a58166e3c79489bbcd2e9fbceeb291, type: 3}
     category: 0
     modelPrefab: {fileID: 919132149155446097, guid: 312df82849bd748428c95931594be5d6, type: 3}
+  - id: xgp
+    displayName: "\u897F\u74DC\u76AE"
+    icon: {fileID: 21300000, guid: ad551bf9265a74685870e7e8b727e419, type: 3}
+    category: 0
+    modelPrefab: {fileID: 919132149155446097, guid: c3913ac8a31fd4d83879ee8725b2f9b9, type: 3}
+  - id: zx
+    displayName: "\u7EB8\u7BB1"
+    icon: {fileID: 21300000, guid: efe338b9bfad14a58afa1a7dd45ee353, type: 3}
+    category: 0
+    modelPrefab: {fileID: 919132149155446097, guid: ed4813cc3bded42c8af32cf088f0dc20, type: 3}
