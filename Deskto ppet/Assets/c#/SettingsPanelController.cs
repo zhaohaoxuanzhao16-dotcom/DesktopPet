@@ -38,24 +38,36 @@ public class SettingsPanelController : MonoBehaviour
     [Header("要控制的脚本")]
     public PetScreenAdapter petAdapter;
     public TypeSequenceLoop easterEgg;
+    private global::Kirurobo.UniWindowController windowController; 
 
-    [Header("缩放设置")]
-    public Camera targetCamera;
-    public Transform petModel;
-    public float defaultDistance = 4.31f;
-    public float minDistance = 2f;
-    public float maxDistance = 10f;
-    public float zoomStep = 0.5f;
+    [Header("缩放设置 (窗口大小)")]
+    public float minWindowSize = 200f;  // 窗口最小宽度
+    public float maxWindowSize = 800f;  // 窗口最大宽度
+    public float zoomStep = 50f;        // 每次点击缩放的步长
 
-    private float currentDistance;
+    // 【修复点】：把 petModel 加回来，用于水平翻转
+    [Header("角色模型控制")]
+    public Transform petModel; 
+    private float currentWindowWidth;
+    private float initialAspectRatio;   // 记录窗口初始宽高比
     private bool isFlipped = false;
-    private Vector3 originalEuler;   // 原始旋转
+    private Vector3 originalEuler;      // 原始旋转
 
     void Start()
     {
         Debug.Log("=== SettingsPanelController Start ===");
 
-        if (targetCamera == null) targetCamera = Camera.main;
+        windowController = FindObjectOfType<global::Kirurobo.UniWindowController>();
+        if (windowController == null)
+            Debug.LogError("未找到 UniWindowController，无法缩放窗口！");
+        else
+        {
+            // 记录初始窗口比例
+            Vector2 size = windowController.windowSize;
+            initialAspectRatio = size.x / size.y;
+        }
+
+        // 自动寻找名为 "player" 的模型
         if (petModel == null)
         {
             var go = GameObject.Find("player");
@@ -74,9 +86,9 @@ public class SettingsPanelController : MonoBehaviour
         if (toggleHideButton != null)
             toggleHideButton.isOn = PlayerPrefs.GetInt("HideSettingsButton", 0) == 1;
 
-        // 缩放距离
-        currentDistance = PlayerPrefs.GetFloat("ZoomDistance", defaultDistance);
-        ApplyDistance();
+        // 缩放大小读取 (默认为 400)
+        currentWindowWidth = PlayerPrefs.GetFloat("WindowWidth", 400f);
+        ApplyWindowSize();
 
         // 读取旋转状态
         isFlipped = PlayerPrefs.GetInt("PetFlipped", 0) == 1;
@@ -172,34 +184,37 @@ public class SettingsPanelController : MonoBehaviour
             settingsButton.SetActive(!hide);
     }
 
-    // ---------------- 缩放 ----------------
+    // ---------------- 缩放窗口大小 ----------------
     public void ZoomIn()
     {
-        if (targetCamera == null || petModel == null) return;
-        currentDistance = Mathf.Max(minDistance, currentDistance - zoomStep);
-        ApplyDistance();
+        if (windowController == null) return;
+        currentWindowWidth = Mathf.Max(minWindowSize, currentWindowWidth - zoomStep);
+        ApplyWindowSize();
         SaveZoom();
     }
 
     public void ZoomOut()
     {
-        if (targetCamera == null || petModel == null) return;
-        currentDistance = Mathf.Min(maxDistance, currentDistance + zoomStep);
-        ApplyDistance();
+        if (windowController == null) return;
+        currentWindowWidth = Mathf.Min(maxWindowSize, currentWindowWidth + zoomStep);
+        ApplyWindowSize();
         SaveZoom();
     }
 
-    void ApplyDistance()
+    void ApplyWindowSize()
     {
-        if (targetCamera == null || petModel == null) return;
-        Vector3 camPos = targetCamera.transform.position;
-        camPos.z = petModel.position.z - currentDistance;
-        targetCamera.transform.position = camPos;
+        if (windowController == null) return;
+        
+        // 根据初始比例计算高度，保证角色不会拉伸变形
+        float newWidth = currentWindowWidth;
+        float newHeight = newWidth / initialAspectRatio;
+
+        windowController.windowSize = new Vector2(newWidth, newHeight);
     }
 
     void SaveZoom()
     {
-        PlayerPrefs.SetFloat("ZoomDistance", currentDistance);
+        PlayerPrefs.SetFloat("WindowWidth", currentWindowWidth);
         PlayerPrefs.Save();
     }
 
