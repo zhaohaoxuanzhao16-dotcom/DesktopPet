@@ -1,11 +1,10 @@
 {
   "dependencies": {
+    "com.github.fuziki.unity_app_event_monitor": "https://github.com/fuziki/UnityAppEventMonitor.git?path=Examples/UnityAppEventMonitor/Assets/Plugins/AppEventMonitor",
     "com.kirurobo.uniwinc": "https://github.com/kirurobo/UniWindowController.git#upm",
-    "com.unity.multiplayer.center": "1.0.1",
+    "com.unity.textmeshpro": "3.0.9",
     "com.unity.timeline": "1.8.12",
     "com.unity.ugui": "2.0.0",
-    "com.unity.modules.accessibility": "1.0.0",
-    "com.unity.modules.adaptiveperformance": "1.0.0",
     "com.unity.modules.animation": "1.0.0",
     "com.unity.modules.audio": "1.0.0",
     "com.unity.modules.imageconversion": "1.0.0",
@@ -22,7 +21,6 @@
     "com.unity.modules.unitywebrequestaudio": "1.0.0",
     "com.unity.modules.unitywebrequesttexture": "1.0.0",
     "com.unity.modules.unitywebrequestwww": "1.0.0",
-    "com.unity.modules.vectorgraphics": "1.0.0",
     "com.unity.modules.video": "1.0.0"
   }
 }
